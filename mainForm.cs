@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Resolvers;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
@@ -20,8 +21,8 @@ namespace EnTask
         private Form form2;
         private Form form3;
 
-        private CalendarService service;
-        private string calendarId;
+        public CalendarService service;
+        public string calendarId;
 
         public class CalendarData
         {
@@ -39,7 +40,7 @@ namespace EnTask
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            form1 = new Form1();
+            form1 = new Form1(this);
             form1.TopLevel = false;
             form1.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form1);
@@ -88,14 +89,26 @@ namespace EnTask
         }
 
         //カレンダーIDと予定IDをファイルに保存
-        private void SaveCalendarDataToFile(string calendarId, string eventId)
+        private void SaveCalendarDataToFile(string calendarId, string eventId, string itemName, DateTime startTime, DateTime endTime)
         {
+            List<CalendarData> calendarDataList = GetCalendarDataFromFile();
+
+            if (calendarDataList == null)
+            {
+                calendarDataList = new List<CalendarData>();
+            }
+
             var data = new CalendarData
             {
                 CalendarId = calendarId,
-                EventId = eventId
+                EventId = eventId,
+                CalanderItem = itemName,
+                StratTime = startTime,
+                EndTime = endTime
             };
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+            calendarDataList.Add(data);
+
+            string json = JsonConvert.SerializeObject(calendarDataList, Formatting.Indented);
             File.WriteAllText("Calendar.json", json);
         }
 
@@ -109,8 +122,7 @@ namespace EnTask
                 try
                 {
                     string json = File.ReadAllText("Calendar.json");
-                    var data = JsonConvert.DeserializeObject<CalendarData>(json);
-                    calendarDataList.Add(data);
+                    calendarDataList = JsonConvert.DeserializeObject<List<CalendarData>>(json);
                 }
                 catch (Exception ex)
                 {
@@ -145,6 +157,8 @@ namespace EnTask
                 ApplicationName = "EnTask"
             });
 
+            Console.WriteLine(service);
+
             //カレンダーが存在するか確認
             string calendarName = "EnTask";
             var calendarList = await service.CalendarList.List().ExecuteAsync();
@@ -158,31 +172,25 @@ namespace EnTask
                 calendarId = createdCalendar.Id;
 
                 //カレンダーIDをファイルに保存
-                SaveCalendarDataToFile(calendarId, null);
+                SaveCalendarIdToFile(calendarId);
             }
             else
             {
                 //カレンダーがすでに存在する場合、そのカレンダーのIDを取得
-                calendarId = enTaskCalendar.Id;
+                calendarId = GetCalendarIdFromFile();
             }
 
             //JSONファイルからカレンダーのデータを読み込む
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
 
-            // 取得したデータをリストに代入
             if (calendarDataList.Count > 0)
             {
-                // カレンダーIDと予定IDがファイルに保存されている場合は、リストに代入
-                calendarId = calendarDataList[0].CalendarId;
-                string eventId = calendarDataList[0].EventId;
-                string eventName = calendarDataList[0].CalanderItem;
-                DateTime startTime = calendarDataList[0].StratTime;
-                DateTime endTime = calendarDataList[0].EndTime;
+                //カレンダーIDと予定IDがファイルに保存されている場合は、リストに代入
             }
             else
             {
                 //ファイルにデータが保存されていない場合は、新規作成してファイルに保存
-                SaveCalendarDataToFile(calendarId, null);
+                SaveCalendarDataToFile(calendarId, null, null, DateTime.MinValue, DateTime.MinValue);
             }
 
             //ボタンを非表示にする
@@ -192,8 +200,27 @@ namespace EnTask
             form1.Show();
         }
 
-        private async Task<string> CreateEvent(string eventName, DateTime startTime, DateTime endTime)
+        // カレンダーIDをファイルに保存
+        private void SaveCalendarIdToFile(string calendarId)
         {
+            File.WriteAllText("CalendarId.json", calendarId);
+        }
+
+        // JSONファイルからカレンダーIDを読み込む
+        private string GetCalendarIdFromFile()
+        {
+            if (File.Exists("CalendarId.json"))
+            {
+                return File.ReadAllText("CalendarId.json");
+            }
+            return null;
+        }
+
+
+        //予定の新規作成
+        public async Task<string> CreateEvent(string eventName, DateTime startTime, DateTime endTime)
+        {
+            calendarId = GetCalendarIdFromFile();
             if (service == null || string.IsNullOrEmpty(calendarId))
             {
                 MessageBox.Show("カレンダーが正しく設定されていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -209,9 +236,9 @@ namespace EnTask
 
             try
             {
-                // イベントの作成
+                //予定の作成
                 var createdEvent = await service.Events.Insert(newEvent, calendarId).ExecuteAsync();
-                SaveCalendarDataToFile(calendarId, createdEvent.Id);
+                SaveCalendarDataToFile(calendarId, createdEvent.Id, eventName, startTime, endTime);
                 return createdEvent.Id;
             }
             catch (Exception ex)
@@ -221,7 +248,7 @@ namespace EnTask
             }
         }
 
-        //カレンダーの削除
+        //予定の削除
         private async Task DeleteEvent(string eventId)
         {
             if (service == null || string.IsNullOrEmpty(calendarId))
@@ -232,10 +259,10 @@ namespace EnTask
 
             try
             {
-                //イベントを削除
+                //予定を削除
                 await service.Events.Delete(calendarId, eventId).ExecuteAsync();
 
-                //カレンダーIDとイベントIDが一致するデータをファイルから削除
+                //カレンダーIDと予定IDが一致するデータをファイルから削除
                 DeleteCalendarDataFromFile(calendarId, eventId);
             }
             catch (Exception ex)
@@ -259,7 +286,7 @@ namespace EnTask
             }
         }
 
-        //カレンダーの更新
+        //予定の更新
         private async Task UpdateEvent(string eventId, string newEventName, DateTime newStartTime, DateTime newEndTime)
         {
             if (service == null || string.IsNullOrEmpty(calendarId))
@@ -270,16 +297,15 @@ namespace EnTask
 
             try
             {
-                //イベントの取得
+                //予定の取得
                 var existingEvent = await service.Events.Get(calendarId, eventId).ExecuteAsync();
 
-                //イベントの更新
+                //予定の更新
                 existingEvent.Summary = newEventName;
                 existingEvent.Start.DateTime = newStartTime;
                 existingEvent.End.DateTime = newEndTime;
                 await service.Events.Update(existingEvent, calendarId, eventId).ExecuteAsync();
 
-                // カレンダーのデータをファイルに更新
                 UpdateCalendarDataToFile(eventId, newEventName, newStartTime, newEndTime);
             }
             catch (Exception ex)

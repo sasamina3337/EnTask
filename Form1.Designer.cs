@@ -36,6 +36,7 @@
             this.speakPictureBox = new System.Windows.Forms.PictureBox();
             this.speakLabel = new System.Windows.Forms.Label();
             this.timerComboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.charcterPIcBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speakPictureBox)).BeginInit();
             this.SuspendLayout();
@@ -62,7 +63,7 @@
             // 
             // timerBtn
             // 
-            this.timerBtn.Location = new System.Drawing.Point(440, 231);
+            this.timerBtn.Location = new System.Drawing.Point(468, 231);
             this.timerBtn.Name = "timerBtn";
             this.timerBtn.Size = new System.Drawing.Size(75, 23);
             this.timerBtn.TabIndex = 2;
@@ -100,16 +101,27 @@
             // timerComboBox
             // 
             this.timerComboBox.FormattingEnabled = true;
-            this.timerComboBox.Location = new System.Drawing.Point(301, 231);
+            this.timerComboBox.Location = new System.Drawing.Point(330, 231);
             this.timerComboBox.Name = "timerComboBox";
             this.timerComboBox.Size = new System.Drawing.Size(121, 23);
             this.timerComboBox.TabIndex = 3;
+            this.timerComboBox.Text = "選択してください";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(327, 213);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "項目名";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.timerComboBox);
             this.Controls.Add(this.speakLabel);
             this.Controls.Add(this.speakPictureBox);
@@ -137,5 +149,6 @@
         private System.Windows.Forms.PictureBox speakPictureBox;
         private System.Windows.Forms.Label speakLabel;
         private System.Windows.Forms.ComboBox timerComboBox;
+        private System.Windows.Forms.Label label1;
     }
 }

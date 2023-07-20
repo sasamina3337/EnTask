@@ -16,15 +16,22 @@ namespace EnTask
 {
     public partial class Form1 : Form
     {
+        private mainForm MainForm;
+        public string DateItem;
+        public DateTime StartTime;
+        public DateTime EndTime;
+
         public Boolean timerEnable = true;
 
         public int timeCul, minCul, secCul;
-        public Form1()
+        public Form1(mainForm mainFormInstance)
         {
             InitializeComponent();
+            MainForm = mainFormInstance;
             timeCul = 0;
             minCul = 0;
             secCul = 0;
+
         }
 
         private void timerTick(object sender, EventArgs e)
@@ -37,12 +44,12 @@ namespace EnTask
             secCul++;
             if(secCul >= 60)
             {
-                minCul = secCul / 60;
+                minCul = minCul + secCul / 60;
                 secCul %= 60;
             }
             if (minCul >= 60)
             {
-                timeCul = minCul / 60;
+                timeCul = timeCul　+ minCul / 60;
                 minCul %= 60;
             }
             if (secCul < 10) secSpace = "0";
@@ -58,13 +65,17 @@ namespace EnTask
                 timer.Start();
                 timerEnable = false;
                 timerBtn.Text = "stop";
+                StartTime = DateTime.Now;
             }
-
             else
             {
                 timer.Stop();
                 timerEnable = true;
                 timerBtn.Text = "start";
+                DateItem = timerComboBox.Text;
+                EndTime = DateTime.Now;
+
+                MainForm.CreateEvent(DateItem, StartTime, EndTime);
             }
         }
     }
