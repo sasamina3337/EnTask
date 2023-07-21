@@ -54,7 +54,7 @@
             // charcterPIcBox
             // 
             this.charcterPIcBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.charcterPIcBox.Image = global::EnTask.Properties.Resources.state1;
+            this.charcterPIcBox.Image = global::EnTask.Properties.Resources.state4;
             this.charcterPIcBox.Location = new System.Drawing.Point(74, 54);
             this.charcterPIcBox.Name = "charcterPIcBox";
             this.charcterPIcBox.Size = new System.Drawing.Size(200, 200);

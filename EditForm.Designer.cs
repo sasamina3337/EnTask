@@ -39,8 +39,8 @@
             this.targetTimePick = new System.Windows.Forms.DateTimePicker();
             this.categoryBox = new System.Windows.Forms.ComboBox();
             this.detailsTextBox = new System.Windows.Forms.TextBox();
-            this.editBtn = new System.Windows.Forms.Button();
-            this.cancelBtn = new System.Windows.Forms.Button();
+            this.OK = new System.Windows.Forms.Button();
+            this.Cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.importanceNum)).BeginInit();
             this.SuspendLayout();
@@ -157,35 +157,35 @@
             this.detailsTextBox.Size = new System.Drawing.Size(536, 75);
             this.detailsTextBox.TabIndex = 1;
             // 
-            // editBtn
+            // OK
             // 
-            this.editBtn.Location = new System.Drawing.Point(421, 348);
-            this.editBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.editBtn.Name = "editBtn";
-            this.editBtn.Size = new System.Drawing.Size(88, 29);
-            this.editBtn.TabIndex = 2;
-            this.editBtn.Text = "OK";
-            this.editBtn.UseVisualStyleBackColor = true;
-            this.editBtn.Click += new System.EventHandler(this.editBtn_Click);
+            this.OK.Location = new System.Drawing.Point(421, 348);
+            this.OK.Margin = new System.Windows.Forms.Padding(4);
+            this.OK.Name = "OK";
+            this.OK.Size = new System.Drawing.Size(88, 29);
+            this.OK.TabIndex = 2;
+            this.OK.Text = "OK";
+            this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.editBtn_Click);
             // 
-            // cancelBtn
+            // Cancel
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(531, 348);
-            this.cancelBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(88, 29);
-            this.cancelBtn.TabIndex = 3;
-            this.cancelBtn.Text = "Cancel";
-            this.cancelBtn.UseVisualStyleBackColor = true;
-            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            this.Cancel.Location = new System.Drawing.Point(531, 348);
+            this.Cancel.Margin = new System.Windows.Forms.Padding(4);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(88, 29);
+            this.Cancel.TabIndex = 3;
+            this.Cancel.Text = "Cancel";
+            this.Cancel.UseVisualStyleBackColor = true;
+            this.Cancel.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
             // EditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(651, 386);
-            this.Controls.Add(this.cancelBtn);
-            this.Controls.Add(this.editBtn);
+            this.Controls.Add(this.Cancel);
+            this.Controls.Add(this.OK);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -206,8 +206,8 @@
         private System.Windows.Forms.ComboBox categoryBox;
         private System.Windows.Forms.TextBox detailsTextBox;
         private System.Windows.Forms.NumericUpDown importanceNum;
-        private System.Windows.Forms.Button editBtn;
-        private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.Button OK;
+        private System.Windows.Forms.Button Cancel;
         private System.Windows.Forms.Label itemLabel;
         private System.Windows.Forms.Label importanceLabel;
         private System.Windows.Forms.Label detailsLabel;

@@ -46,6 +46,7 @@ namespace EnTask
 
                 listDatas.Add(newData);
                 UpdateListView();
+                SaveToDoListData();
             }
         }
 
@@ -60,7 +61,7 @@ namespace EnTask
 
                 Data selectedData = listDatas[selectedIndex];
 
-                EditForm editForm = new EditForm(selectedData.ItemText, selectedData.TargetTime, selectedData.Importance.ToString(), selectedData.Category, selectedData.Details, selectedData.Achievement); // Achievement の値を渡します
+                EditForm editForm = new EditForm(selectedData.ItemText, selectedData.TargetTime, selectedData.Importance.ToString(), selectedData.Category, selectedData.Details, selectedData.Achievement);
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
                     selectedData.ItemText = editForm.ItemText;
@@ -71,14 +72,17 @@ namespace EnTask
                     selectedData.Achievement = editForm.Achievement;
 
                     UpdateListView();
+                    SaveToDoListData();
                 }
             }
         }
 
-        //Load時の処理
+        //Lo
         private void Form2_Load(object sender, EventArgs e)
         {
             listDatas = ListToDate();
+            LoadToDoListData();
+            UpdateListView();
         }
 
         //削除処理
@@ -96,6 +100,7 @@ namespace EnTask
 
                 listDatas.RemoveAt(selectedIndex);
                 UpdateListView();
+                SaveToDoListData();
             }
         }
 
@@ -141,21 +146,21 @@ namespace EnTask
 
         public void updateList(string editItemText, string editTargetTime, string editImportance, string editCategory, string editDetails, string achievement)
         {
-
-            foreach (ListViewItem item in listView1.Items)
+            foreach (Data data in listDatas)
             {
-                if (item.SubItems[0].Text == editItemText)
+                if (data.ItemText == editItemText)
                 {
-                    item.SubItems[1].Text = editTargetTime;
-                    item.SubItems[2].Text = editImportance.ToString();
-                    item.SubItems[3].Text = editCategory;
-                    item.SubItems[4].Text = editDetails;
-                    item.SubItems[5].Text = achievement;
+                    data.TargetTime = editTargetTime;
+                    data.Importance = int.Parse(editImportance);
+                    data.Category = editCategory;
+                    data.Details = editDetails;
+                    data.Achievement = achievement;
                     break;
                 }
             }
 
-            listView1.Refresh();
+            UpdateListView();
+            SaveToDoListData();
         }
 
         private void newList(string itemText, string targetTime, string importance, string category, string details, string achievement)
