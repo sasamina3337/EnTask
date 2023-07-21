@@ -19,7 +19,7 @@ namespace EnTask
     {
         private Form form1;
         private Form form2;
-        private Form form3;
+        public Form form3 { get; private set; }
 
         public CalendarService service;
         public string calendarId;
@@ -50,7 +50,7 @@ namespace EnTask
             form2.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form2);
 
-            form3 = new Form3();
+            form3 = new Form3(this);
             form3.TopLevel = false;
             form3.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form3);
@@ -58,22 +58,18 @@ namespace EnTask
 
         private void menu_Click(object sender, EventArgs e)
         {
-            Button clickedButton = (Button)sender;   //クリックされたボタンを取得
+            Button clickedButton = (Button)sender;
 
-            //すべてのボタンの背景色を初期化
             button1.BackColor = SystemColors.Control;
             button2.BackColor = SystemColors.Control;
             button3.BackColor = SystemColors.Control;
 
-            //クリックされたボタンの背景色を変更
             clickedButton.BackColor = Color.Red;
 
-            //他のフォームを隠す
             form1.Hide();
             form2.Hide();
             form3.Hide();
 
-            //クリックされたボタンに対応するフォームを表示
             if (clickedButton == button1)
             {
                 form1.Show();
@@ -193,10 +189,7 @@ namespace EnTask
                 SaveCalendarDataToFile(calendarId, null, null, DateTime.MinValue, DateTime.MinValue);
             }
 
-            //ボタンを非表示にする
             authBtn.Visible = false;
-
-            //form1を表示する
             form1.Show();
         }
 
@@ -249,7 +242,7 @@ namespace EnTask
         }
 
         //予定の削除
-        private async Task DeleteEvent(string eventId)
+        public async Task DeleteEvent(string eventName, DateTime startTime)
         {
             if (service == null || string.IsNullOrEmpty(calendarId))
             {
@@ -259,11 +252,20 @@ namespace EnTask
 
             try
             {
-                //予定を削除
+                // イベント名と開始時刻が一致するイベントの情報を取得
+                string eventId = GetEventIdFromFile(eventName, startTime);
+                if (string.IsNullOrEmpty(eventId))
+                {
+                    MessageBox.Show("指定されたイベントが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Google Calendarからイベントを削除
                 await service.Events.Delete(calendarId, eventId).ExecuteAsync();
 
-                //カレンダーIDと予定IDが一致するデータをファイルから削除
-                DeleteCalendarDataFromFile(calendarId, eventId);
+                // カレンダーデータファイルから削除
+                DeleteCalendarDataFromFile(eventName, startTime);
+
             }
             catch (Exception ex)
             {
@@ -271,23 +273,38 @@ namespace EnTask
             }
         }
 
-        //JSONファイルから削除
-        private void DeleteCalendarDataFromFile(string calendarId, string eventId)
+
+        private string GetEventIdFromFile(string eventName, DateTime startTime)
         {
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
 
-            // カレンダーIDとイベントIDが一致するデータを削除
-            var dataToDelete = calendarDataList.FirstOrDefault(data => data.CalendarId == calendarId && data.EventId == eventId);
-            if (dataToDelete != null)
+            // イベント名と開始時刻が一致するデータを検索してイベントIDを取得
+            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StratTime.Date == startTime.Date);
+            if (eventData != null)
             {
-                calendarDataList.Remove(dataToDelete);
+                return eventData.EventId;
+            }
+
+            return null;
+        }
+
+
+        //JSONファイルから削除
+        private void DeleteCalendarDataFromFile(string eventName, DateTime startTime)
+        {
+            List<CalendarData> calendarDataList = GetCalendarDataFromFile();
+            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StratTime.Date == startTime.Date);
+            if (eventData != null)
+            {
+                calendarDataList.Remove(eventData);
                 string updatedJson = JsonConvert.SerializeObject(calendarDataList, Formatting.Indented);
                 File.WriteAllText("Calendar.json", updatedJson);
             }
         }
 
+
         //予定の更新
-        private async Task UpdateEvent(string eventId, string newEventName, DateTime newStartTime, DateTime newEndTime)
+        public async Task UpdateEvent(string eventId, string newEventName, DateTime newStartTime, DateTime newEndTime)
         {
             if (service == null || string.IsNullOrEmpty(calendarId))
             {
@@ -329,6 +346,13 @@ namespace EnTask
                 string updatedJson = JsonConvert.SerializeObject(calendarDataList, Formatting.Indented);
                 File.WriteAllText("Calendar.json", updatedJson);
             }
+        }
+
+        public List<CalendarData> GetCalendarEventsForDate(DateTime date)
+        {
+            List<CalendarData> calendarDataList = GetCalendarDataFromFile();
+            List<CalendarData> eventsForDate = calendarDataList.Where(data => data.StratTime.Date == date.Date).ToList();
+            return eventsForDate;
         }
     }
 }

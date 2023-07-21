@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "卒業研究",
             "10:00:00",
             "0",
@@ -62,7 +62,7 @@
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem7});
+            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(26, 52);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(488, 257);
@@ -145,6 +145,7 @@
             this.button4.TabIndex = 5;
             this.button4.Text = "カテゴリー編集";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
             // 
             // Form2
             // 
@@ -159,7 +160,7 @@
             this.Controls.Add(this.listView1);
             this.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
