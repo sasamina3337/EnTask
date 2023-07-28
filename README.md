@@ -1,0 +1,2 @@
+# EnTask
+まず初めにexeファイルと同じファイルにclient_secret.jsonという名前でグーグルAPIのクライアント認証情報のjsonを設置してください
