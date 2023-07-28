@@ -173,5 +173,8 @@
   <ItemGroup>
     <None Include="state4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="google.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

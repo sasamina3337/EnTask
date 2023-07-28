@@ -49,18 +49,21 @@ namespace EnTask
 
         private void editBtn_Click(object sender, EventArgs e)
         {
-            // 編集結果を取得
-            string editItemText = itemTextBox.Text;
-            string editTargetTime = targetTimePick.Value.ToString("HH:mm:ss");
-            string editImportance = ((int)importanceNum.Value).ToString();
-            string editCategory = categoryBox.Text;
-            string editDetails = detailsTextBox.Text;
+            //編集結果を取得
+            ItemText = itemTextBox.Text;
+            TargetTime = targetTimePick.Value.ToString("HH:mm:ss");
+            Importance = ((int)importanceNum.Value).ToString();
+            Category = categoryBox.Text;
+            Details = detailsTextBox.Text;
 
-            // Form2に編集結果を渡す
+            //Form2に編集結果を渡す
             Form2 form2 = (Form2)Application.OpenForms["Form2"];
-            form2.updateList(editItemText, editTargetTime, editImportance, editCategory, editDetails, Achievement);
+            form2.updateList(ItemText, TargetTime, Importance, Category, Details, Achievement);
 
-            // EditFormを閉じる
+            //OKに設定
+            this.DialogResult = DialogResult.OK;
+
+            //EditFormを閉じる
             this.Close();
         }
 

@@ -34,8 +34,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.formPanel = new System.Windows.Forms.Panel();
             this.authBtn = new System.Windows.Forms.Button();
+            this.gPic = new System.Windows.Forms.PictureBox();
             this.menuPanel.SuspendLayout();
             this.formPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gPic)).BeginInit();
             this.SuspendLayout();
             // 
             // menuPanel
@@ -54,6 +56,7 @@
             // 
             this.button3.BackColor = System.Drawing.SystemColors.Control;
             this.button3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button3.Enabled = false;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button3.Location = new System.Drawing.Point(0, 106);
@@ -68,6 +71,7 @@
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Control;
             this.button2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button2.Enabled = false;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button2.Location = new System.Drawing.Point(0, 53);
@@ -82,6 +86,7 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Control;
             this.button1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button1.Enabled = false;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button1.Location = new System.Drawing.Point(0, 0);
@@ -94,6 +99,7 @@
             // 
             // formPanel
             // 
+            this.formPanel.Controls.Add(this.gPic);
             this.formPanel.Controls.Add(this.authBtn);
             this.formPanel.Location = new System.Drawing.Point(206, 12);
             this.formPanel.Name = "formPanel";
@@ -104,11 +110,22 @@
             // 
             this.authBtn.Location = new System.Drawing.Point(194, 183);
             this.authBtn.Name = "authBtn";
-            this.authBtn.Size = new System.Drawing.Size(200, 51);
+            this.authBtn.Size = new System.Drawing.Size(200, 48);
             this.authBtn.TabIndex = 0;
             this.authBtn.Text = "認証ボタン";
             this.authBtn.UseVisualStyleBackColor = true;
             this.authBtn.Click += new System.EventHandler(this.authBtn_Click);
+            // 
+            // gPic
+            // 
+            this.gPic.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.gPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.gPic.Image = global::EnTask.Properties.Resources.google;
+            this.gPic.Location = new System.Drawing.Point(140, 183);
+            this.gPic.Name = "gPic";
+            this.gPic.Size = new System.Drawing.Size(48, 48);
+            this.gPic.TabIndex = 1;
+            this.gPic.TabStop = false;
             // 
             // mainForm
             // 
@@ -123,6 +140,7 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuPanel.ResumeLayout(false);
             this.formPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -135,6 +153,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button authBtn;
+        private System.Windows.Forms.PictureBox gPic;
     }
 }
 

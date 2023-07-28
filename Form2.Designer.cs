@@ -28,13 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "卒業研究",
-            "10:00:00",
-            "0",
-            "勉強",
-            "とりあえずがんばれ",
-            "20%"}, -1);
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,6 +40,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -61,11 +57,9 @@
             this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(26, 52);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(488, 257);
+            this.listView1.Size = new System.Drawing.Size(488, 210);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -109,7 +103,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(26, 324);
+            this.button1.Location = new System.Drawing.Point(26, 268);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -119,7 +113,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(136, 324);
+            this.button2.Location = new System.Drawing.Point(136, 268);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -129,7 +123,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(240, 324);
+            this.button3.Location = new System.Drawing.Point(255, 268);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 4;
@@ -139,19 +133,46 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(341, 324);
+            this.button4.Location = new System.Drawing.Point(421, 323);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(93, 23);
             this.button4.TabIndex = 5;
-            this.button4.Text = "カテゴリー編集";
+            this.button4.Text = "カテゴリー登録";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(231, 324);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(176, 23);
+            this.textBox1.TabIndex = 6;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Location = new System.Drawing.Point(26, 324);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(199, 79);
+            this.listBox1.TabIndex = 7;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(231, 380);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(93, 23);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "カテゴリ削除";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(545, 426);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -183,5 +204,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button button5;
     }
 }

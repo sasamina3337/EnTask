@@ -34,20 +34,26 @@ namespace EnTask
             EditForm editForm = new EditForm("", "00:00:00", "0", "選択してください", "", "0%");
             if (editForm.ShowDialog() == DialogResult.OK)
             {
-                Data newData = new Data()
-                {
-                    ItemText = editForm.ItemText,
-                    TargetTime = editForm.TargetTime,
-                    Importance = int.Parse(editForm.Importance),
-                    Category = editForm.Category,
-                    Details = editForm.Details,
-                    Achievement = ""
-                };
-
-                listDatas.Add(newData);
-                UpdateListView();
-                SaveToDoListData();
+                // リストに新規データを追加
+                addNewData(editForm.ItemText, editForm.TargetTime, editForm.Importance, editForm.Category, editForm.Details, editForm.Achievement);
             }
+        }
+
+        public void addNewData(string itemText, string targetTime, string importance, string category, string details, string achievement)
+        {
+            Data newData = new Data()
+            {
+                ItemText = itemText,
+                TargetTime = targetTime,
+                Importance = int.Parse(importance),
+                Category = category,
+                Details = details,
+                Achievement = achievement
+            };
+
+            listDatas.Add(newData);
+            UpdateListView();
+            SaveToDoListData();
         }
 
         //更新処理

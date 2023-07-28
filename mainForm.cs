@@ -190,6 +190,10 @@ namespace EnTask
             }
 
             authBtn.Visible = false;
+            gPic.Visible = false;
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
             form1.Show();
         }
 
