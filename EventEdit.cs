@@ -48,19 +48,17 @@ namespace EnTask
             DateTime newStartTime = startTimePicker.Value;
             DateTime newEndTime = endTimePicker.Value;
 
-            if (!string.IsNullOrEmpty(eventName) && eventName != newEventName)
+            if (!string.IsNullOrEmpty(eventName))
             {
-                //イベントを更新
-                mainFormInstance.UpdateEvent(eventName, newEventName, newStartTime, newEndTime);
+                //元のイベントを削除
+                mainFormInstance.DeleteEvent(eventName, startTime);
+                await Task.Delay(2000); //APIの制限を考慮して待機
             }
-            else
-            {
-                //イベントを作成
-                mainFormInstance.CreateEvent(newEventName, newStartTime, newEndTime);
-            }
+
+            //新しいイベントを作成
+            mainFormInstance.CreateEvent(newEventName, newStartTime, newEndTime);
 
             this.Close();
-
         }
 
         private void Cancel_Click(object sender, EventArgs e)

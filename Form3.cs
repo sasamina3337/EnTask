@@ -29,11 +29,11 @@ namespace EnTask
             foreach (var calendarData in calendarDataList)
             {
                 //達成時間を計算する
-                AchieveTimeSpan(calendarData.StratTime, calendarData.EndTime);
+                AchieveTimeSpan(calendarData.StartTime, calendarData.EndTime);
 
                 //イベントデータからListViewItemを作成
                 ListViewItem item = new ListViewItem(calendarData.CalanderItem);
-                item.SubItems.Add(calendarData.StratTime.ToString("HH:mm"));
+                item.SubItems.Add(calendarData.StartTime.ToString("HH:mm"));
                 item.SubItems.Add(calendarData.EndTime.ToString("HH:mm"));
                 item.SubItems.Add(achieveTime.ToString(@"hh\:mm"));
 
@@ -61,45 +61,44 @@ namespace EnTask
         }
 
         //カレンダーの新規作成
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             //EventEditフォームを新規作成するために開く
             EventEdit eventEditForm = new EventEdit(mainFormInstance, this);
             eventEditForm.ShowDialog();
 
+            await Task.Delay(2000);
             LoadCalendarData();
         }
 
         //カレンダーの修正
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0)
             {
-                //選択されたイベントのデータを取得
                 string eventName = listView.SelectedItems[0].Text;
                 DateTime startTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[1].Text, "HH:mm", null);
                 DateTime endTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[2].Text, "HH:mm", null);
 
-                //EventEditフォームを開く
                 EventEdit eventEditForm = new EventEdit(mainFormInstance, this, eventName, startTime, endTime);
                 eventEditForm.ShowDialog();
 
+                await Task.Delay(2000);
                 LoadCalendarData();
             }
         }
 
         //カレンダーの削除
-        private void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0)
             {
-                //選択されたイベントのデータを取得
                 string eventName = listView.SelectedItems[0].Text;
                 DateTime startTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[1].Text, "HH:mm", null);
 
-                //イベントを削除
                 mainFormInstance.DeleteEvent(eventName, startTime);
 
+                await Task.Delay(2000);
                 LoadCalendarData();
             }
         }

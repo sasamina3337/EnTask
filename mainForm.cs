@@ -29,7 +29,7 @@ namespace EnTask
             public string CalendarId { get; set; }
             public string EventId { get; set; }
             public string CalanderItem { get; set; }
-            public DateTime StratTime { get; set; }
+            public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
         }
 
@@ -99,7 +99,7 @@ namespace EnTask
                 CalendarId = calendarId,
                 EventId = eventId,
                 CalanderItem = itemName,
-                StratTime = startTime,
+                StartTime = startTime,
                 EndTime = endTime
             };
             calendarDataList.Add(data);
@@ -283,7 +283,7 @@ namespace EnTask
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
 
             // イベント名と開始時刻が一致するデータを検索してイベントIDを取得
-            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StratTime.Date == startTime.Date);
+            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StartTime.Date == startTime.Date);
             if (eventData != null)
             {
                 return eventData.EventId;
@@ -297,7 +297,7 @@ namespace EnTask
         private void DeleteCalendarDataFromFile(string eventName, DateTime startTime)
         {
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
-            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StratTime.Date == startTime.Date);
+            var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StartTime.Date == startTime.Date);
             if (eventData != null)
             {
                 calendarDataList.Remove(eventData);
@@ -345,7 +345,7 @@ namespace EnTask
             if (dataToUpdate != null)
             {
                 dataToUpdate.CalanderItem = newEventName;
-                dataToUpdate.StratTime = newStartTime;
+                dataToUpdate.StartTime = newStartTime;
                 dataToUpdate.EndTime = newEndTime;
                 string updatedJson = JsonConvert.SerializeObject(calendarDataList, Formatting.Indented);
                 File.WriteAllText("Calendar.json", updatedJson);
@@ -355,7 +355,7 @@ namespace EnTask
         public List<CalendarData> GetCalendarEventsForDate(DateTime date)
         {
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
-            List<CalendarData> eventsForDate = calendarDataList.Where(data => data.StratTime.Date == date.Date).ToList();
+            List<CalendarData> eventsForDate = calendarDataList.Where(data => data.StartTime.Date == date.Date).ToList();
             return eventsForDate;
         }
     }

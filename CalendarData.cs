@@ -11,7 +11,7 @@ namespace EnTask
         public string CalendarId { get; set; }
         public string EventId { get; set; }
         public string CalanderItem { get; set; }
-        public DateTime StratTime { get; set; }
+        public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
     }
 }
