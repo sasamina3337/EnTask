@@ -58,10 +58,14 @@ namespace EnTask
             timerLabel.Text =  timeSpace + timeCul + ":" + minSpace  + minCul + ":" + secSpace + secCul;
         }
 
-        private void timerBtn_Click(object sender, EventArgs e)
+        private async void timerBtn_Click(object sender, EventArgs e)
         {
             if (timerEnable)
             {
+                timeCul = 0;
+                minCul = 0;
+                secCul = 0;
+                timerLabel.Text = "00:00:00";
                 timer.Start();
                 timerEnable = false;
                 timerBtn.Text = "stop";
@@ -76,6 +80,11 @@ namespace EnTask
                 EndTime = DateTime.Now;
 
                 MainForm.CreateEvent(DateItem, StartTime, EndTime);
+
+                await Task.Delay(2000);
+
+                Form3 form3 = (Form3)MainForm.form3;
+                form3.LoadCalendarData();
             }
         }
     }
