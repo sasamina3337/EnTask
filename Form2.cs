@@ -20,12 +20,14 @@ namespace EnTask
 {
     public partial class Form2 : Form
     {
+        private mainForm MainForm;
         private string todoListFilePath = "ToDoList.json";
         public string itemText, targetTime, importance, category, details, achivement;
-        private List<Data> listDatas = new List<Data>();
-        public Form2()
+        public List<Data> listDatas = new List<Data>();
+        public Form2(mainForm MainForm)
         {
             InitializeComponent();
+            this.MainForm = MainForm;
         }
 
         //新規作成処理
@@ -83,12 +85,15 @@ namespace EnTask
             }
         }
 
-        //Lo
+        //ロードイベント
         private void Form2_Load(object sender, EventArgs e)
         {
             listDatas = ListToDate();
             LoadToDoListData();
             UpdateListView();
+            ((Form1)MainForm.form1).UpdateForm();
+            MainForm.eventEdit.UpdateForm();
+
         }
 
         //削除処理

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EnTask
 {
-    internal class Data
+    public class Data
     {
         public string ItemText { get; set; }
         public string TargetTime { get; set; }

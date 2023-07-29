@@ -87,5 +87,16 @@ namespace EnTask
                 form3.LoadCalendarData();
             }
         }
+
+        public void UpdateForm()
+        {
+            timerComboBox.Items.Clear();
+            foreach (var data in ((Form2)MainForm.form2).listDatas)
+            {
+                timerComboBox.Items.Add(data.ItemText);
+            }
+        }
+
+
     }
 }

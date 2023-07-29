@@ -17,9 +17,10 @@ namespace EnTask
 {
     public partial class mainForm : Form
     {
-        private Form form1;
-        private Form form2;
-        public Form form3 { get; private set; }
+        public Form1 form1;
+        public Form2 form2;
+        public Form3 form3;
+        public EventEdit eventEdit;
 
         public CalendarService service;
         public string calendarId;
@@ -36,24 +37,27 @@ namespace EnTask
         public mainForm()
         {
             InitializeComponent();
+            form1 = new Form1(this);
+            form2 = new Form2(this);
+            form3 = new Form3(this);
+            eventEdit = new EventEdit(this, form3);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            form1 = new Form1(this);
             form1.TopLevel = false;
             form1.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form1);
 
-            form2 = new Form2();
             form2.TopLevel = false;
             form2.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form2);
 
-            form3 = new Form3(this);
             form3.TopLevel = false;
             form3.Dock = DockStyle.Fill;
             formPanel.Controls.Add(form3);
+
+            eventEdit = new EventEdit(this, form3);
         }
 
         private void menu_Click(object sender, EventArgs e)

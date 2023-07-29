@@ -36,7 +36,7 @@ namespace EnTask
             this.endTime = endTime;
             InitializeDateTimePickers();
 
-            eventNameTextBox.Text = eventName;
+            eventNameComboBox.Text = eventName;
             startTimePicker.Value = startTime;
             endTimePicker.Value = endTime;
         }
@@ -44,7 +44,7 @@ namespace EnTask
 
         private async void OK_Click(object sender, EventArgs e)
         {
-            string newEventName = eventNameTextBox.Text;
+            string newEventName = eventNameComboBox.Text;
             DateTime newStartTime = startTimePicker.Value;
             DateTime newEndTime = endTimePicker.Value;
 
@@ -106,5 +106,15 @@ namespace EnTask
                 endDatePicker.Value = endTimePicker.Value.Date;
             };
         }
+        //選択項目の更新
+        public void UpdateForm()
+        {
+            eventNameComboBox.Items.Clear();
+            foreach (var data in ((Form2)mainFormInstance.form2).listDatas)
+            {
+                eventNameComboBox.Items.Add(data.ItemText);
+            }
+        }
+
     }
 }
