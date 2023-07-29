@@ -24,6 +24,7 @@ namespace EnTask
             this.mainFormInstance = mainFormInstance;
             this.form3Instance = form3Instance;
             InitializeDateTimePickers();
+            UpdateForm();
         }
 
         public EventEdit(mainForm mainFormInstance, Form3 form3Instance, string eventName, DateTime startTime, DateTime endTime)
@@ -35,6 +36,7 @@ namespace EnTask
             this.startTime = startTime;
             this.endTime = endTime;
             InitializeDateTimePickers();
+            UpdateForm();
 
             eventNameComboBox.Text = eventName;
             startTimePicker.Value = startTime;
