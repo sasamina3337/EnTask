@@ -24,6 +24,9 @@ namespace EnTask
         private string todoListFilePath = "ToDoList.json";
         public string itemText, targetTime, importance, category, details, achivement;
         public List<Data> listDatas = new List<Data>();
+        // カテゴリーリスト
+        List<string> CategoryList = new List<string>();
+
         public Form2(mainForm MainForm)
         {
             InitializeComponent();
@@ -33,7 +36,7 @@ namespace EnTask
         //新規作成処理
         private void button1_Click(object sender, EventArgs e)
         {
-            EditForm editForm = new EditForm("", "00:00:00", "0", "選択してください", "", "0%");
+            EditForm editForm = new EditForm("", "00:00:00", "0", "選択してください", "", "0%", CategoryList);
             if (editForm.ShowDialog() == DialogResult.OK)
             {
                 // リストに新規データを追加
@@ -69,7 +72,7 @@ namespace EnTask
 
                 Data selectedData = listDatas[selectedIndex];
 
-                EditForm editForm = new EditForm(selectedData.ItemText, selectedData.TargetTime, selectedData.Importance.ToString(), selectedData.Category, selectedData.Details, selectedData.Achievement);
+                EditForm editForm = new EditForm(selectedData.ItemText, selectedData.TargetTime, selectedData.Importance.ToString(), selectedData.Category, selectedData.Details, selectedData.Achievement, CategoryList);
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
                     selectedData.ItemText = editForm.ItemText;
@@ -93,6 +96,8 @@ namespace EnTask
             UpdateListView();
             ((Form1)MainForm.form1).UpdateForm();
             MainForm.eventEdit.UpdateForm();
+            categoryToFileList();
+            ListInBox();
 
         }
 
@@ -148,6 +153,49 @@ namespace EnTask
             }
         }
 
+        //カテゴリー登録
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string newCategory = categoryTextBox.Text;
+            if (!string.IsNullOrEmpty(newCategory))
+            {
+                //リストに追加
+                CategoryList.Add(newCategory);
+
+                //JSONファイルに保存
+                File.WriteAllText("Category.json", JsonConvert.SerializeObject(CategoryList));
+
+                //リストボックスに追加
+                categoryListBox.Items.Add(newCategory);
+
+                //テキストボックスを空にする
+                categoryTextBox.Clear();
+            }
+        }
+
+        //カテゴリー削除
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //選択されていない場合
+            if (categoryListBox.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            string selectedCategory = categoryListBox.SelectedItem.ToString();
+            if (!string.IsNullOrEmpty(selectedCategory))
+            {
+                //リストから削除
+                CategoryList.Remove(selectedCategory);
+
+                //JSONファイルに保存
+                File.WriteAllText("Category.json", JsonConvert.SerializeObject(CategoryList));
+
+                //リストボックスから削除
+                categoryListBox.Items.Remove(selectedCategory);
+            }
+        }
+
         // ToDoリストデータをファイルに保存する
         private void SaveToDoListData()
         {
@@ -172,18 +220,6 @@ namespace EnTask
 
             UpdateListView();
             SaveToDoListData();
-        }
-
-        private void newList(string itemText, string targetTime, string importance, string category, string details, string achievement)
-        {
-            ListViewItem newItem = new ListViewItem(itemText);
-            newItem.SubItems.Add(targetTime);
-            newItem.SubItems.Add(importance);
-            newItem.SubItems.Add(category);
-            newItem.SubItems.Add(details);
-            newItem.SubItems.Add(achievement);
-
-            listView1.Items.Add(newItem);
         }
 
         private List<Data> ListToDate()
@@ -232,6 +268,34 @@ namespace EnTask
                 }
             }
         }
+
+        //JSONを読み込んでカテゴリーリストに格納
+        void categoryToFileList()
+        {
+            //ファイルが存在しない場合
+            if (!File.Exists("Category.json"))
+            {
+                File.Create("Category.json").Close();
+                CategoryList = new List<string>();
+            }
+            else
+            {
+                //ファイルが存在する場合
+                string json = File.ReadAllText("Category.json");
+                CategoryList = JsonConvert.DeserializeObject<List<string>>(json) ?? new List<string>();
+            }
+        }
+
+        //カテゴリーリストをcategoryListBoxに入れ込む
+        void ListInBox()
+        {
+            categoryListBox.Items.Clear();
+            foreach (string category in CategoryList)
+            {
+                categoryListBox.Items.Add(category);
+            }
+        }
+
 
     }
 }

@@ -17,6 +17,8 @@ namespace EnTask
 {
     public partial class EditForm : Form
     {
+        private mainForm MainForm;
+        private List<string> CategoryList;
         public string ItemText;
         public string TargetTime;
         public string Importance;
@@ -24,7 +26,14 @@ namespace EnTask
         public string Details;
         public string Achievement;
 
-        public EditForm(string itemText, string targetTime, string importance, string category, string details, string achievement)
+        public EditForm(mainForm MainForm, List<string> CategoryList)
+        {
+            InitializeComponent();
+            this.MainForm = MainForm;
+            this.CategoryList = CategoryList;
+        }
+
+        public EditForm(string itemText, string targetTime, string importance, string category, string details, string achievement, List<string> CategoryList)
         {
             InitializeComponent();
             ItemText = itemText;
@@ -34,6 +43,13 @@ namespace EnTask
             Details = details;
             if (ItemText != "") groupBox1.Text = ItemText + "の編集";
             Achievement = achievement;
+            this.CategoryList = CategoryList;
+            categoryBox.Items.Clear();
+            foreach (var categoryList in this.CategoryList)
+            {
+                categoryBox.Items.Add(categoryList);
+            }
+
         }
 
         //Load時の処理

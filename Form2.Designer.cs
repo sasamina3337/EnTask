@@ -40,8 +40,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.categoryTextBox = new System.Windows.Forms.TextBox();
+            this.categoryListBox = new System.Windows.Forms.ListBox();
             this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -139,22 +139,23 @@
             this.button4.TabIndex = 5;
             this.button4.Text = "カテゴリー登録";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // textBox1
+            // categoryTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(231, 324);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(176, 23);
-            this.textBox1.TabIndex = 6;
+            this.categoryTextBox.Location = new System.Drawing.Point(231, 324);
+            this.categoryTextBox.Name = "categoryTextBox";
+            this.categoryTextBox.Size = new System.Drawing.Size(176, 23);
+            this.categoryTextBox.TabIndex = 6;
             // 
-            // listBox1
+            // categoryListBox
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(26, 325);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(199, 79);
-            this.listBox1.TabIndex = 7;
+            this.categoryListBox.FormattingEnabled = true;
+            this.categoryListBox.ItemHeight = 15;
+            this.categoryListBox.Location = new System.Drawing.Point(26, 325);
+            this.categoryListBox.Name = "categoryListBox";
+            this.categoryListBox.Size = new System.Drawing.Size(199, 79);
+            this.categoryListBox.TabIndex = 7;
             // 
             // button5
             // 
@@ -164,6 +165,7 @@
             this.button5.TabIndex = 8;
             this.button5.Text = "カテゴリ削除";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form2
             // 
@@ -171,8 +173,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(545, 426);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.categoryListBox);
+            this.Controls.Add(this.categoryTextBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -204,8 +206,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox categoryTextBox;
+        private System.Windows.Forms.ListBox categoryListBox;
         private System.Windows.Forms.Button button5;
     }
 }
