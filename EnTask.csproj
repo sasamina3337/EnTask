@@ -99,12 +99,6 @@
     <Compile Include="EventEdit.Designer.cs">
       <DependentUpon>EventEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="NewListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewListForm.Designer.cs">
-      <DependentUpon>NewListForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,9 +124,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewListForm.resx">
-      <DependentUpon>NewListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
