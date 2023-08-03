@@ -15,12 +15,13 @@ namespace EnTask
     {
         public TimeSpan achieveTime;
         public DateTime pickDate;
-        private mainForm mainFormInstance;
+        private mainForm MainForm;
+        public List<EnTask.mainForm.CalendarData> calendarDataList;
 
         public void LoadCalendarData()
         {
             //mainFormの関数を呼び出して選択した日付のカレンダーイベントを取得
-            List<EnTask.mainForm.CalendarData> calendarDataList = mainFormInstance.GetCalendarEventsForDate(pickDate);
+            calendarDataList = MainForm.GetCalendarEventsForDate(pickDate);
 
             //listViewの項目をクリア
             listView.Items.Clear();
@@ -44,7 +45,7 @@ namespace EnTask
         public Form3(mainForm mainFormInstance)
         {
             InitializeComponent();
-            this.mainFormInstance = mainFormInstance;
+            this.MainForm = mainFormInstance;
             dateTimePicker.Value = DateTime.Now;
             LoadCalendarData();
         }
@@ -53,6 +54,7 @@ namespace EnTask
         {
             pickDate = dateTimePicker.Value;
             LoadCalendarData();
+            MainForm.form2.UpdateListView();
         }
 
         private void AchieveTimeSpan(DateTime startTime, DateTime endTime)
@@ -64,11 +66,12 @@ namespace EnTask
         private async void button1_Click(object sender, EventArgs e)
         {
             //EventEditフォームを新規作成するために開く
-            EventEdit eventEditForm = new EventEdit(mainFormInstance, this);
+            EventEdit eventEditForm = new EventEdit(MainForm, this);
             eventEditForm.ShowDialog();
 
             await Task.Delay(2000);
             LoadCalendarData();
+            MainForm.form2.UpdateListView();
         }
 
         //カレンダーの修正
@@ -80,11 +83,12 @@ namespace EnTask
                 DateTime startTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[1].Text, "HH:mm", null);
                 DateTime endTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[2].Text, "HH:mm", null);
 
-                EventEdit eventEditForm = new EventEdit(mainFormInstance, this, eventName, startTime, endTime);
+                EventEdit eventEditForm = new EventEdit(MainForm, this, eventName, startTime, endTime);
                 eventEditForm.ShowDialog();
 
                 await Task.Delay(2000);
                 LoadCalendarData();
+                MainForm.form2.UpdateListView();
             }
         }
 
@@ -96,16 +100,12 @@ namespace EnTask
                 string eventName = listView.SelectedItems[0].Text;
                 DateTime startTime = DateTime.ParseExact(listView.SelectedItems[0].SubItems[1].Text, "HH:mm", null);
 
-                mainFormInstance.DeleteEvent(eventName, startTime);
+                MainForm.DeleteEvent(eventName, startTime);
 
                 await Task.Delay(2000);
                 LoadCalendarData();
+                MainForm.form2.UpdateListView();
             }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            LoadCalendarData();
         }
     }
 }

@@ -185,11 +185,11 @@ namespace EnTask
 
             if (calendarDataList.Count > 0)
             {
-                //カレンダーIDと予定IDがファイルに保存されている場合は、リストに代入
+                //カレンダーIDと予定IDがファイルに保存されている場合
             }
             else
             {
-                //ファイルにデータが保存されていない場合は、新規作成してファイルに保存
+                //ファイルにデータが保存されていない場合
                 SaveCalendarDataToFile(calendarId, null, null, DateTime.MinValue, DateTime.MinValue);
             }
 
@@ -201,13 +201,13 @@ namespace EnTask
             form1.Show();
         }
 
-        // カレンダーIDをファイルに保存
+        //カレンダーIDをファイルに保存
         private void SaveCalendarIdToFile(string calendarId)
         {
             File.WriteAllText("CalendarId.json", calendarId);
         }
 
-        // JSONファイルからカレンダーIDを読み込む
+        //JSONファイルからカレンダーIDを読み込む
         private string GetCalendarIdFromFile()
         {
             if (File.Exists("CalendarId.json"))
@@ -260,18 +260,18 @@ namespace EnTask
 
             try
             {
-                // イベント名と開始時刻が一致するイベントの情報を取得
+                // ベント名と開始時刻が一致する予定を取得
                 string eventId = GetEventIdFromFile(eventName, startTime);
                 if (string.IsNullOrEmpty(eventId))
                 {
-                    MessageBox.Show("指定されたイベントが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("指定された予定が見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Google Calendarからイベントを削除
+                //GoogleCalendarから予定を削除
                 await service.Events.Delete(calendarId, eventId).ExecuteAsync();
 
-                // カレンダーデータファイルから削除
+                //カレンダーファイルから削除
                 DeleteCalendarDataFromFile(eventName, startTime);
 
             }
@@ -286,7 +286,7 @@ namespace EnTask
         {
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();
 
-            // イベント名と開始時刻が一致するデータを検索してイベントIDを取得
+            //予定名と開始時刻が一致するデータを検索してイベントIDを取得
             var eventData = calendarDataList.FirstOrDefault(data => data.CalanderItem == eventName && data.StartTime.Date == startTime.Date);
             if (eventData != null)
             {
@@ -339,7 +339,7 @@ namespace EnTask
             }
         }
 
-        // カレンダーのデータをファイルに更新
+        //カレンダーのデータをファイルに更新
         private void UpdateCalendarDataToFile(string eventId, string newEventName, DateTime newStartTime, DateTime newEndTime)
         {
             List<CalendarData> calendarDataList = GetCalendarDataFromFile();

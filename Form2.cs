@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using EnTask;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace EnTask
         private string todoListFilePath = "ToDoList.json";
         public string itemText, targetTime, importance, category, details, achivement;
         public List<Data> listDatas = new List<Data>();
-        // カテゴリーリスト
+        //カテゴリーリスト
         List<string> CategoryList = new List<string>();
 
         public Form2(mainForm MainForm)
@@ -196,7 +197,7 @@ namespace EnTask
             }
         }
 
-        // ToDoリストデータをファイルに保存する
+        //ToDoリストデータをファイルに保存する
         private void SaveToDoListData()
         {
             string jsonData = JsonConvert.SerializeObject(listDatas);
@@ -241,35 +242,65 @@ namespace EnTask
             return dataList;
         }
 
-        private void UpdateAchievementPercentage()
+        public void UpdateAchievementPercentage()
         {
+            Form3 form3 = MainForm.form3;
+
             foreach (Data data in listDatas)
             {
-                // 同じ名前の項目をフィルタリング
-                var sameNameItems = listDatas.Where(item => item.ItemText == data.ItemText).ToList();
+                //同じ名前の項目をcalendarDataList選択
+                var matchedItems = form3.calendarDataList.Where(item => item.CalanderItem == data.ItemText).ToList();
 
-                // 同じ名前の項目の達成時間の合計を計算
+                //達成時間の合計を計算
                 TimeSpan totalAchievedTime = TimeSpan.Zero;
-                foreach (var item in sameNameItems)
+                foreach (var item in matchedItems)
                 {
-                    TimeSpan achievedTime;
-                    if (TimeSpan.TryParse(item.Achievement, out achievedTime))
-                    {
-                        totalAchievedTime += achievedTime;
-                    }
+                    TimeSpan achievedTime = item.EndTime - item.StartTime;
+                    totalAchievedTime += achievedTime;
                 }
 
-                // 達成度を計算して設定
-                int itemCount = sameNameItems.Count;
-                if (itemCount > 0)
+                //目標時間を計算
+                TimeSpan targetTime;
+                if (TimeSpan.TryParse(data.TargetTime, out targetTime))
                 {
-                    int achievementPercentage = (int)(totalAchievedTime.TotalMinutes / (itemCount * TimeSpan.FromHours(24).TotalMinutes) * 100);
+                    int achievementPercentage = (int)(totalAchievedTime.TotalSeconds / targetTime.TotalSeconds * 100);
                     data.Achievement = achievementPercentage.ToString() + "%";
                 }
             }
+
+            MainForm.form1.UpdateTime();
         }
 
-        //JSONを読み込んでカテゴリーリストに格納
+        //全体の達成度の計算
+        public int TotalAchievement()
+        {
+            int totalAchieveTime = 0;
+            int totalTargetTime = 0;
+            foreach (Data data in listDatas)
+            {
+                //達成度から%を削除
+                int achievement = int.Parse(data.Achievement.TrimEnd('%'));
+
+                //TargetTimeを秒に変換
+                TimeSpan targetTime;
+                if (TimeSpan.TryParse(data.TargetTime, out targetTime))
+                {
+                    int targetTimeInSeconds = (int)targetTime.TotalSeconds;
+
+                    //合計達成時間を計算
+                    totalAchieveTime += (achievement * targetTimeInSeconds) / 100;
+
+                    //合計目標時間を計算
+                    totalTargetTime += targetTimeInSeconds;
+                }
+            }
+
+            //全体の達成度を計算
+            int totalAchievement = (totalTargetTime > 0) ? (totalAchieveTime * 100) / totalTargetTime : 0;
+            return totalAchievement;
+        }
+
+        //JSONの読み込み
         void categoryToFileList()
         {
             //ファイルが存在しない場合
@@ -286,7 +317,7 @@ namespace EnTask
             }
         }
 
-        //カテゴリーリストをcategoryListBoxに入れ込む
+        //カテゴリーリストをcategoryListBox
         void ListInBox()
         {
             categoryListBox.Items.Clear();
@@ -295,7 +326,5 @@ namespace EnTask
                 categoryListBox.Items.Add(category);
             }
         }
-
-
     }
 }

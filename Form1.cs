@@ -24,15 +24,17 @@ namespace EnTask
         public Boolean timerEnable = true;
 
         public int timeCul, minCul, secCul;
-        public Form1(mainForm mainFormInstance)
+        public Form1(mainForm MainForm)
         {
             InitializeComponent();
-            MainForm = mainFormInstance;
+            this.MainForm = MainForm;
             timeCul = 0;
             minCul = 0;
             secCul = 0;
 
         }
+
+
 
         private void timerTick(object sender, EventArgs e)
         {
@@ -85,7 +87,13 @@ namespace EnTask
 
                 Form3 form3 = (Form3)MainForm.form3;
                 form3.LoadCalendarData();
+                MainForm.form2.UpdateListView();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            UpdateTime();
         }
 
         public void UpdateForm()
@@ -94,6 +102,31 @@ namespace EnTask
             foreach (var data in ((Form2)MainForm.form2).listDatas)
             {
                 timerComboBox.Items.Add(data.ItemText);
+            }
+        }
+
+        public void UpdateTime()
+        {
+            int totalAchievement = MainForm.form2.TotalAchievement();
+            if(totalAchievement < 25)
+            {
+                charcterPIcBox.Image = EnTask.Properties.Resources.state1;
+                speakLabel.Text = "あなたは堕落した1日をすごしています。\r\nもう少し頑張りましょう。";
+            }
+            else if(totalAchievement < 50)
+            {
+                charcterPIcBox.Image = EnTask.Properties.Resources.state2;
+                speakLabel.Text = "少しずつペースアップしてきましたね。\r\nあと少し頑張りましょう。";
+            }
+            else if(totalAchievement < 75)
+            {
+                charcterPIcBox.Image = EnTask.Properties.Resources.state3;
+                speakLabel.Text = "かなりいい一日を過ごせています。\r\nもう少しでゴールですよ。";
+            }
+            else
+            {
+                charcterPIcBox.Image = EnTask.Properties.Resources.state4;
+                speakLabel.Text = "あなたはとても良い一日を過ごせています。\r\n明日も頑張りましょう。";
             }
         }
 
